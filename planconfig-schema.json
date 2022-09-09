@@ -1,0 +1,292 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "disableLinks": {
+      "type": "array",
+      "description": "配置禁用连接设置",
+      "items": {
+        "type": "object",
+        "required": [
+          "level",
+          "links"
+        ],
+        "properties": {
+          "level": {
+            "pattern": "-?[1-9]+",
+            "type": "integer",
+            "description": "楼层"
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "from": {
+                      "pattern": "[1-9][0-9]*",
+                      "type": "integer",
+                      "description": "连接始点"
+                    },
+                    "to": {
+                      "pattern": "[1-9][0-9]*",
+                      "type": "integer",
+                      "description": "连接终点"
+                    },
+                    "doubleDir": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "禁用双向"
+                    }
+                  }
+                },
+                {
+                  "type": "string",
+                  "description": "仅支持单向禁用格式：1001-1002",
+                  "pattern": "^(([1-9][0-9]*)-([1-9][0-9]*))+$"
+                }
+              ]
+            },
+            "description": "连接"
+          }
+        }
+      }
+    },
+    "pathWeights": {
+      "type": "object",
+      "properties": {
+        "MV_AWAY_VEHICLE_ANGLE": {
+          "type": "number",
+          "default": 777,
+          "minimum": 0,
+          "title": "MV_AWAY_VEHICLE_ANGLE",
+          "description": "when move away vehicle, choose angle"
+        },
+        "MV_AWAY_AGV_RANGESTEP": {
+          "type": "number",
+          "default": 10,
+          "minimum": 0,
+          "title": "MV_AWAY_AGV_RANGESTEP",
+          "description": "when move away agv, search range"
+        },
+        "MV_AWAY_AGV_PRIORITY": {
+          "type": "integer",
+          "default": 0,
+          "enum": [
+            0,
+            1
+          ],
+          "title": "MV_AWAY_AGV_PRIORITY",
+          "description": "1:consider, 0:not consider"
+        },
+        "PathFindMethod": {
+          "type": "integer",
+          "default": 1,
+          "enum": [
+            1,
+            2
+          ],
+          "title": "PATH_FIND_METHOD",
+          "description": "1:Dijskar  other:AStar"
+        },
+        "BATTERY_STATE": {
+          "type": "number",
+          "default": 1,
+          "minimum": 0,
+          "title": "BATTERY_STATE",
+          "description": "BATTERY_STATE"
+        },
+        "CHOOSE_ROTATEPOINT": {
+          "type": "integer",
+          "default": 1,
+          "enum": [
+            0,
+            1
+          ],
+          "title": "CHOOSE_ROTATEPOINT",
+          "description": "1: default, choose the one close to target, 0: choose the one close to the source"
+        },
+        "MV_MOVEAWAY_EMPTY_LIMIT": {
+          "type": "integer",
+          "default": 10,
+          "minimum": 1,
+          "title": "MV_MOVEAWAY_EMPTY_LIMIT",
+          "description": "the limit to judge which method to use; if empty parking space is bigger than this, use the second moveway method"
+        },
+        "MV_MOVEAWAY_METHOD": {
+          "type": "integer",
+          "default": 1,
+          "minimum": 1,
+          "enum": [
+            1,
+            2
+          ],
+          "title": "MV_MOVEAWAY_METHOD",
+          "description": "when move away choose the method  1:As original  2:different steps"
+        },
+        "CONSIDER_ANGLE_SEARCHDEST": {
+          "type": "integer",
+          "default": 1,
+          "minimum": 0,
+          "title": "MV_MOVEAWAY_METHOD",
+          "description": "CONSIDER_ANGLE_SEARCHDEST"
+        },
+        "STOP_AFTER_ROTATION": {
+          "type": "integer",
+          "default": 0,
+          "minimum": 0,
+          "title": "STOP_AFTER_ROTATION",
+          "description": "STOP_AFTER_ROTATION"
+        },
+        "Past_Cost": {
+          "type": "number",
+          "default": 0.7,
+          "minimum": 0,
+          "title": "Past_Cost",
+          "description": "Past_Cost"
+        },
+        "Node_LinkThing": {
+          "type": "number",
+          "default": 100,
+          "minimum": 0,
+          "title": "Node_LinkThing",
+          "description": "Node_LinkThing"
+        },
+        "Node_Volume": {
+          "type": "number",
+          "default": 100,
+          "minimum": 0,
+          "title": "Node_Volume",
+          "description": "the cost to occupy the extral park space (smalll vehicle occupy the big park area"
+        },
+        "Move_Turn": {
+          "type": "number",
+          "default": 10,
+          "minimum": 0,
+          "title": "Move_Turn",
+          "description": "the cost for agv to change direction"
+        },
+        "Move_MoveAwayAngle": {
+          "type": "number",
+          "default": 500,
+          "minimum": 0,
+          "title": "Move_MoveAwayAngle",
+          "description": "the cost if the move away angle cost is not equal the required"
+        },
+        "Node_Filtered": {
+          "type": "number",
+          "default": 1000,
+          "minimum": 0,
+          "title": "Node_Filtered",
+          "description": "the node is the filter node"
+        },
+        "Node_FreeLink": {
+          "type": "number",
+          "default": 100,
+          "minimum": 0,
+          "title": "Node_FreeLink",
+          "description": "the free link percent cost, use this to allow park inside"
+        },
+        "Node_Priority": {
+          "type": "number",
+          "default": 1,
+          "minimum": 0,
+          "title": "Node_Priority",
+          "description": "pass a device node"
+        },
+        "Node_Parking": {
+          "type": "number",
+          "default": 0.1,
+          "minimum": 0,
+          "title": "Node_Parking",
+          "description": "pass a parking node"
+        },
+        "Node_Path": {
+          "type": "number",
+          "default": 200,
+          "minimum": 0,
+          "title": "Node_Path",
+          "description": "pass a path node"
+        },
+        "Node_Collision_Trays": {
+          "type": "number",
+          "default": 150,
+          "minimum": 0,
+          "title": "Node_Collision_Trays",
+          "description": "Node has collision with trays"
+        },
+        "Node_Collision_Tray": {
+          "type": "number",
+          "default": 100,
+          "minimum": 0,
+          "title": "Node_Collision_Tray",
+          "description": "Node has collision with tray"
+        },
+        "Node_Collision_AGV": {
+          "type": "number",
+          "default": 30,
+          "minimum": 0,
+          "title": "Node_Collision_AGV",
+          "description": "Node has collision with agv"
+        },
+        "Link_Collision_Trays": {
+          "type": "number",
+          "default": 150,
+          "minimum": 0,
+          "title": "Link_Collision_Trays",
+          "description": "link is occupied by trays"
+        },
+        "Link_Collision_Tray": {
+          "type": "number",
+          "default": 100,
+          "minimum": 0,
+          "title": "Link_Collision_Tray",
+          "description": "link is occupied by tray"
+        },
+        "Link_Collision_AGV": {
+          "type": "number",
+          "default": 30,
+          "minimum": 0,
+          "title": "Link_Collision_AGV",
+          "description": "link is occupied by other AGV"
+        },
+        "Link_VRC": {
+          "type": "number",
+          "default": 3,
+          "minimum": 0,
+          "title": "Link_VRC",
+          "description": "link to vrc"
+        },
+        "Link_Device": {
+          "type": "number",
+          "default": 1,
+          "minimum": 0,
+          "title": "Link_VRC",
+          "description": "link way point to way point"
+        },
+        "Link_ParkingPt2ParkingPt": {
+          "type": "number",
+          "default": 1,
+          "minimum": 0,
+          "title": "Link_ParkingPt2ParkingPt",
+          "description": "link parking to parking"
+        },
+        "Link_WayPt2ParkingPt": {
+          "type": "number",
+          "default": 1,
+          "minimum": 0,
+          "title": "Link_WayPt2ParkingPt",
+          "description": "link way point to parking point"
+        },
+        "Link_WayPt2WayPt": {
+          "type": "number",
+          "default": 1,
+          "minimum": 0,
+          "title": "Link_WayPt2WayPt",
+          "description": "link way point to way point"
+        }
+      }
+    }
+  }
+}

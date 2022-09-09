@@ -1,0 +1,176 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "上架配置逻辑",
+
+  "type": "object",
+  "properties": {
+    "putaway": {
+      "type": "object",
+      "description": "上架配置.",
+      "properties": {
+        "areas": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [ "Three-Deep ZONE", "Five-Deep ZONE", "PSB ZONE" ]
+          }
+        },
+        "retunedMinQuantity": {
+          "type": "integer",
+          "default": 0,
+          "description": "返回的最小数目限制，小于或等0的情况下，如果存在完全匹配项，则只返回完全匹配的项"
+        },
+        "preferLevels": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "enum": [ 1, 2, 3, 4, 5 ]
+          },
+          "aisleIndexes": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "enum": [ 1, 2, 3 ]
+            }
+          }
+        },
+        "highQTY": {
+          "type": "string",
+          "pattern": "\\s*(<|>|==|<=|>=)\\s*\\d+\\s*",
+          "default": ">3"
+        },
+        "lowQTY": {
+          "type": "string",
+          "pattern": "\\s*(<|>|==|<=|>=)\\s*\\d+\\s*",
+          "default": "<4"
+        },
+        "defaultQTY": {
+          "type": "integer",
+          "default": 0
+        },
+        "specials": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "keyword": {
+                "type": "string",
+                "enum": [ "productCode" ]
+              },
+              "values": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "matchType": {
+                "type": "integer",
+                "enum": [ 1 ]
+
+              },
+              "matchMode": {
+                "type": "integer",
+                "enum": [ 2 ]
+              },
+              "matchValues": { "type": "array" },
+              "ignoreLevels": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "enum": [ 1, 2, 3, 4, 5 ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "allocation": {
+      "type": "object",
+      "properties": {
+        "areas": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [ "Three-Deep ZONE", "Five-Deep ZONE", "PSB ZONE" ]
+          }
+        },
+        "lanes": {
+          "type": "object",
+          "patternProperties": {
+            "[0-9]{6}_(L|R)": {
+              "type": "object",
+              "properties": {
+                "disableExit": { "enum": [ "left", "right", 1, 2 ] }
+              }
+            }
+          }
+        }
+      }
+    },
+    "areas": {
+      "type": "object",
+      "patternProperties": {
+        ".+": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "description": { "type": "string" },
+            "resources": {
+              "type": "string",
+              "patternProperties": {
+                "color": { "type": "string" },
+                "order": {
+                  "type": "integer",
+                  "default": 1
+                },
+                ".+": { "type": "object" }
+              }
+            },
+            "lanes": {
+              "type": "object",
+              "patternProperties": {
+                "[0-9]{6}_(L|R)": {
+                  "type": "object",
+                  "properties": {
+                    "isEnabled": {
+                      "type": "boolean",
+                      "default": true
+                    },
+                    "priority": {
+                      "type": "integer",
+                      "default": 1
+                    },
+                    "links": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "disabledState": {
+                            "type": "integer",
+                            "default": 0
+                          },
+                          "point1": {
+                            "type": "object",
+                            "properties": {
+                              "floor": { "type": "integer" },
+                              "number": { "type": "integer" }
+                            }
+                          },
+                          "point2": {
+                            "type": "object",
+                            "properties": {
+                              "floor": { "type": "integer" },
+                              "number": { "type": "integer" }
+                            }
+                          },
+                          "additionalParameters": { "type": "object" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }

@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "patternProperties": {
+    "^.+$": {
+      "description": "token 名称",
+      "properties": {
+        "dependencies": {
+          "type": "array",
+          "pattern": ".*"
+        }
+      }
+    }
+  }
+}
